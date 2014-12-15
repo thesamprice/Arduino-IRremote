@@ -81,8 +81,7 @@ private:
   long decodeHash(decode_results *results);
   int compare(unsigned int oldval, unsigned int newval);
 
-} 
-;
+};
 
 // Only used for testing; can remove virtual for shorter code
 #ifdef TEST
@@ -113,8 +112,7 @@ public:
   void enableIROut(int khz);
   VIRTUAL void mark(int usec);
   VIRTUAL void space(int usec);
-}
-;
+};
 
 // Some useful constants
 

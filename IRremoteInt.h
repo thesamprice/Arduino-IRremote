@@ -22,6 +22,9 @@
 #include <WProgram.h>
 #endif
 
+#include "wiring.h"
+#include "c_types.h"
+
 // define which timer to use
 //
 // Uncomment the timer you wish to use on your board.  If you
@@ -35,6 +38,10 @@
   //#define IR_USE_TIMER3   // tx = pin 5
   //#define IR_USE_TIMER4   // tx = pin 6
   //#define IR_USE_TIMER5   // tx = pin 46
+
+// ESP8266
+#elif defined(__ets__)
+  #define IR_USE_TIMER_ESP8266
 
 // Teensy 1.0
 #elif defined(__AVR_AT90USB162__)
@@ -231,8 +238,11 @@ extern volatile irparams_t irparams;
 
 
 
+
+#if  defined(__ets__)
+  #include "IRpwm.h"
 // defines for timer2 (8 bits)
-#if defined(IR_USE_TIMER2)
+#elif defined(IR_USE_TIMER2)
 #define TIMER_RESET
 #define TIMER_ENABLE_PWM     (TCCR2A |= _BV(COM2B1))
 #define TIMER_DISABLE_PWM    (TCCR2A &= ~(_BV(COM2B1)))

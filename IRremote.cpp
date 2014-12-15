@@ -21,7 +21,7 @@
 #include "IRremoteInt.h"
 
 // Provides ISR
-#include <avr/interrupt.h>
+//#include <avr/interrupt.h>
 
 volatile irparams_t irparams;
 
@@ -335,7 +335,7 @@ void IRrecv::blink13(int blinkflag)
 // First entry is the SPACE between transmissions.
 // As soon as a SPACE gets long, ready is set, state switches to IDLE, timing of SPACE continues.
 // As soon as first MARK arrives, gap width is recorded, ready is cleared, and new logging starts
-ISR(TIMER_INTR_NAME)
+void IR_ISR(void)
 {
   TIMER_RESET;
 
@@ -1061,7 +1061,7 @@ int IRrecv::compare(unsigned int oldval, unsigned int newval) {
 
 // Use FNV hash algorithm: http://isthe.com/chongo/tech/comp/fnv/#FNV-param
 #define FNV_PRIME_32 16777619
-#define FNV_BASIS_32 2166136261
+#define FNV_BASIS_32 2166136261LL
 
 /* Converts the raw code values into a 32-bit hash code.
  * Hopefully this code is unique for each button.
@@ -1072,7 +1072,7 @@ long IRrecv::decodeHash(decode_results *results) {
   if (results->rawlen < 6) {
     return ERR;
   }
-  long hash = FNV_BASIS_32;
+  unsigned long hash =  (unsigned long)FNV_BASIS_32;
   for (int i = 1; i+2 < results->rawlen; i++) {
     int value =  compare(results->rawbuf[i], results->rawbuf[i+2]);
     // Add value into the hash
