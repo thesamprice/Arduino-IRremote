@@ -16,7 +16,7 @@
 void TIMER_CONFIG_NORMAL();
 void TIMER_CONFIG_KHZ(double val)
 {
-
+	double hz = val*1000;
 }
 
 void cli()
@@ -25,5 +25,5 @@ void cli()
 }
 void sei()
 {
-	
+
 }
